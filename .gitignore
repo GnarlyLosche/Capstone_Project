@@ -6,4 +6,9 @@
 # Ignore my original hdf5 files
 .h5
 
+# Ignore all folders/files inside of data (user needs to create the filepath)
+/Data/archive
+/Data/emotion_detector_models
+/Data/unseen_images
+
 
