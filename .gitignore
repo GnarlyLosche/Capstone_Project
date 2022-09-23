@@ -1,0 +1,9 @@
+# Ignore jpeg train and test images AND unseen images
+.jpg
+.JPG
+.jpeg
+
+# Ignore my original hdf5 files
+.h5
+
+
