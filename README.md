@@ -77,14 +77,14 @@ If I were to build a model that always guessed the most frequent emotion (Happin
 ## Initial Model
 My Initial Model was a Convolutional Neural Network trained using the FER2013 Dataset. My initial goal was to buil a model that would take in an image, and accurately predict the emotion show on the face in the image. To make this into a useful tool, I wanted the model to be able to generate an image that had the image, and the emotions overlaid onto the images in order to provide visuals a sales manager could use when they provide feedback to their sales team after their calls.
 
-Image of Train and Validation Acc
+![Image of Train and Validation for Initial Model](https://github.com/GnarlyLosche/Capstone_Project/blob/main/Images/Initial_Model_V1.png)
 
 Initially, my model was underfitting the data slightly. Given the level of accuracy and loss and the delta between each for train and validation, I decided to not worry about the underfitting.
 
 One aspect I realized I forgot in my first model was that I didn't build out additional train and validation datasets to run the second model on (after applying weights)
 - Initially, my transfer learning was re-applied to the same dataset, which could lead to worse generalization since it is reinforcing preconieved features (resulting from retraining on the same data)
 
-Image of Confusion Matrix
+![Inital Model Confusion Matrix](https://github.com/GnarlyLosche/Capstone_Project/blob/main/Images/Initial_Model_Matrix_V1.png)
 
 Overall, my initial model had 56% Accuracy the below performance by emotion:
 
@@ -100,13 +100,13 @@ surprise | 0.63 | 0.74 | 0.68
 
 The poor performance on disgust was likely due to the size of the disgust-labeled data having a large class imbalanced compared to the other emotions. Inversely, the neutral and happy images were the largest labeled data sets. 
 
-Example prediction from first model vs actual labeled emotion
+![Example prediction from first model vs actual labeled emotion](https://github.com/GnarlyLosche/Capstone_Project/blob/main/Images/Inital_Model_Probs.png)
 
 Based on these results I looked for and found the AffectNet Dataset, hoping the increased number of images would improve overall model performance and address the class imbalance/performance on the disgust category.
 
 ## Final Model
 
-Image of model loss and performance before Transfer Learning
+![Model loss and performance before Transfer Learning](https://github.com/GnarlyLosche/Capstone_Project/blob/main/Images/Second_Model_before_TL_V1.png)
 
 I planned on improving my detection model based on the FER2013 dataset, by adding an available subset of Images taken from the AffectNet dataset. Both sets of data have the same target label, which makes aggregating the images easier.
 
@@ -118,9 +118,9 @@ Both models require data augmentation to rescale the AffectNet images, so CPU po
 
 The model weights from this first model were used to build the final model, which had less images but more augmentation applied.
 
-Image of Final Model Performance after Transfer Learning
+![Final Model Performance after Transfer Learning](https://github.com/GnarlyLosche/Capstone_Project/blob/main/Images/second_Model_After_TL.png)
 
-Image of Confusion Matrix from final Model
+![Confusion Matrix from final Model](https://github.com/GnarlyLosche/Capstone_Project/blob/main/Images/Second_Model_Matrix_V1.png)
 
 With the creation of an unseen test set composed of exclusively AffectNet Images, I found that fear and disgust were completely ignored in my model's predictions on the test set. This may be due to the size of classified fear and disgust images in my training and validation datasets, but is indicative of a model that was not trained effectively. 
 
@@ -146,9 +146,9 @@ Whith that said, my model baseline accuracy was 22%, so the model is much better
 
 Even humans are traditionally bad at predicting emotions based solely off of images. This model is based on label data from humans labelling emotions for people across all age ranges, races, and other demographics. A possible reason for my model accuracy is poor labeling, in addition to model training/data size. [Source:](https://www.nature.com/articles/d41586-020-00507-5)
 
-As an example, below is an image of a baby from the AffectNet Dataset that was labeled as fearful that my model predicted as neutral. Qualitatively, I can understand why the person that labeled the image may have chosen fearful, but I could also justify neutral myself.
+As an example, below is an image of a baby from the AffectNet Dataset that was labeled as fearful that my model predicted as neutral. Qualitatively, I can understand why the person that labeled the image may have chosen fearful, but I could also justify neutral myself. **Note: The baby is blue because I used matplots image render to render the image in the notebook, which incorrectly showed the RGB values)**
 
-Image of Fearful Baby
+![Image of Fearful Baby](https://github.com/GnarlyLosche/Capstone_Project/blob/main/Images/Baby_Fearful_1.png)
 
 # Conclusion
 When it comes to sales, there are key emotions that are important in understanding the level of interest you are getting from a prospect, but facial emotions alone will not tell you the whole story. [As mentioned on NPR](https://www.npr.org/2018/03/09/591875336/lisa-feldman-barrett-can-we-really-tell-how-other-people-are-feeling) humans find recognizing emotions solely off of facial expressions alone really difficult, because posture and body language are also indicators. My model may have a level of performance that is reflective of humanity's own ability to interpret emotions, instead of it's own poor performance. 
