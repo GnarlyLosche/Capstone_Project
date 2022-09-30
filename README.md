@@ -69,6 +69,12 @@ AffectNet is a large facial expression dataset with around 0.4 million images ma
 - Since the initial model wasn't built to show the intensity of emotion, the AffectNet images were only used to classify emotions belonging to the emotions present in the FER2013 Dataset. As a result, the images labeled as showing contempt were ignored. 
 
 # Modeling
+## Baseline Model
+In order to evaluate my model performance, I looked at the normalized value counts of the number of images under each emotion category in the combined AffectNet/FER2013 Train Dataset. 
+
+If I were to build a model that always guessed the most frequent emotion (Happiness), my model would have a max accuracy of 22%
+
+## Initial Model
 My Initial Model was a Convolutional Neural Network trained using the FER2013 Dataset. My initial goal was to buil a model that would take in an image, and accurately predict the emotion show on the face in the image. To make this into a useful tool, I wanted the model to be able to generate an image that had the image, and the emotions overlaid onto the images in order to provide visuals a sales manager could use when they provide feedback to their sales team after their calls.
 
 Image of Train and Validation Acc
@@ -80,7 +86,7 @@ One aspect I realized I forgot in my first model was that I didn't build out add
 
 Image of Confusion Matrix
 
-Overall, my initial model had the below performance by emotion:
+Overall, my initial model had 56% Accuracy the below performance by emotion:
 
 Emotion | Precision | Recall | F1
 | :---: | :---: | :---: | :---:
@@ -91,3 +97,63 @@ happy | 0.78 | 0.79 | 0.79
 neutral | 0.49 | 0.62 | 0.55
 sad | 0.45 | 0.41 | 0.43
 surprise | 0.63 | 0.74 | 0.68
+
+The poor performance on disgust was likely due to the size of the disgust-labeled data having a large class imbalanced compared to the other emotions. Inversely, the neutral and happy images were the largest labeled data sets. 
+
+Example prediction from first model vs actual labeled emotion
+
+Based on these results I looked for and found the AffectNet Dataset, hoping the increased number of images would improve overall model performance and address the class imbalance/performance on the disgust category.
+
+## Final Model
+
+Image of model loss and performance before Transfer Learning
+
+I planned on improving my detection model based on the FER2013 dataset, by adding an available subset of Images taken from the AffectNet dataset. Both sets of data have the same target label, which makes aggregating the images easier.
+
+In doing so, I found that my model trains much, much slower. Likely due to the doubled size of the data, and the fact that the addition of the affectnet images meant more transformations had to be applied to the images during the train, validation, and test generator steps. Since transformations can only be applied using CPU power, it takes longer to run.
+
+To address the reduction in speed I decided to use transfer learning to build an initial model that has very little data augmentation (CPU based transformations - model performance shown above) to get a strong initial model, and then build a second model that uses the ending weghts of that first version to further train on a second dataset that is much smaller, but has 3x the applied data augmentation steps.
+
+Both models require data augmentation to rescale the AffectNet images, so CPU power will reduce learning rate given the size of the dataset. In order to avoid it slowing too much, I only using horizontal flip as an additional augmenting step at first. 
+
+The model weights from this first model were used to build the final model, which had less images but more augmentation applied.
+
+Image of Final Model Performance after Transfer Learning
+
+Image of COnfusion Matrix from final Model
+
+With the creation of an unseen test set composed of exclusively AffectNet Images, I found that fear and disgust were completely ignored in my model's predictions on the test set. This may be due to the size of classified fear and disgust images in my training and validation datasets, but is indicative of a model that was not trained effectively. 
+
+With that said, I am ok with poor performance on fear or disgust given the goal of the model. During sales calls, emotions like happiness, and anger are pivotal to classify. More than anything, the shift from neutral to happiness or anger is the indicator I care most about to indicate prospect interest or apathy.
+
+# Final Model Evaluation
+
+Emotion | Precision | Recall | F1
+| :---: | :---: | :---: | :---:
+angry | 0.40 | 0.74 | 0.52
+disgust | 0.00 | 0.00 | 0.00
+fear | 0.00 | 0.00 | 0.00
+happy | 0.76 | 0.91 | 0.82
+neutral | 0.56 | 0.83 | 0.67
+sad | 0.50 | 0.38 | 0.43
+surprise | 0.16 | 0.18 | 0.17
+
+Overall, my final model has accuracy sitting at ~54% on the validation data, and on average 49% on the completely unseen test data. For most models and use cases, 50% accuracy is not high enough to be useful in a production environment.
+
+Whith that said, my model baseline accuracy was 22%, so the model is much better than always guessing happiness as an emotion. This model is better than not using the model for emotion prediction.
+
+# Considerations
+
+Even humans are traditionally bad at predicting emotions based solely off of images. This model is based on label data from humans labelling emotions for people across all age ranges, races, and other demographics. A possible reason for my model accuracy is poor labeling, in addition to model training/data size. [Source:](https://www.nature.com/articles/d41586-020-00507-5)
+
+As an example, below is an image of a baby from the AffectNet Dataset that was labeled as fearful that my model predicted as neutral. Qualitatively, I can understand why the person that labeled the image may have chosen fearful, but I could also justify neutral myself.
+
+Image of Fearful Baby
+
+# Conclusion
+When it comes to sales, there are key emotions that are important in understanding the level of interest you are getting from a prospect, but facial emotions alone will not tell you the whole story. [As mentioned on NPR](https://www.npr.org/2018/03/09/591875336/lisa-feldman-barrett-can-we-really-tell-how-other-people-are-feeling) humans find recognizing emotions solely off of facial expressions alone really difficult, because posture and body language are also indicators. My model may have a level of performance that is reflective of humanity's own ability to interpret emotions, instead of it's own poor performance. 
+
+With more time there are a few things I would love to explore further:
+- Since my model used both datasets, I had to standardize my image sizes to 48x48 pixels, which helps improve processing speed, but may actually reduce performance. I would like to update my model to instead only use the AffectNet images, which are usually over 1000x1000 to see if there are micreoexpressions my model can use to increase performance.
+- I know there are existing emotion detection models trained on much larger datasets (e.g. the enire AffectNet Dataset is over 1 million images) to see how my model performs compared to them
+- My model is built using OpenCV's face detection model to find faces in images - my model is trained on images that may not necessarily have the same size or dimensions of the opencv bounding box, so I would like to look for additional face detection models to use.
