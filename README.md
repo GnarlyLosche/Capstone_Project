@@ -120,7 +120,7 @@ The model weights from this first model were used to build the final model, whic
 
 Image of Final Model Performance after Transfer Learning
 
-Image of COnfusion Matrix from final Model
+Image of Confusion Matrix from final Model
 
 With the creation of an unseen test set composed of exclusively AffectNet Images, I found that fear and disgust were completely ignored in my model's predictions on the test set. This may be due to the size of classified fear and disgust images in my training and validation datasets, but is indicative of a model that was not trained effectively. 
 
@@ -154,6 +154,8 @@ Image of Fearful Baby
 When it comes to sales, there are key emotions that are important in understanding the level of interest you are getting from a prospect, but facial emotions alone will not tell you the whole story. [As mentioned on NPR](https://www.npr.org/2018/03/09/591875336/lisa-feldman-barrett-can-we-really-tell-how-other-people-are-feeling) humans find recognizing emotions solely off of facial expressions alone really difficult, because posture and body language are also indicators. My model may have a level of performance that is reflective of humanity's own ability to interpret emotions, instead of it's own poor performance. 
 
 With more time there are a few things I would love to explore further:
+- After applying the first run's model weights to train my final model, the validation loss and accuracy had much more noise - I would like to reduce the learning rate to reduce noise (run time is 19 hours - difficult to do in given time)
 - Since my model used both datasets, I had to standardize my image sizes to 48x48 pixels, which helps improve processing speed, but may actually reduce performance. I would like to update my model to instead only use the AffectNet images, which are usually over 1000x1000 to see if there are micreoexpressions my model can use to increase performance.
 - I know there are existing emotion detection models trained on much larger datasets (e.g. the enire AffectNet Dataset is over 1 million images) to see how my model performs compared to them
 - My model is built using OpenCV's face detection model to find faces in images - my model is trained on images that may not necessarily have the same size or dimensions of the opencv bounding box, so I would like to look for additional face detection models to use.
+
