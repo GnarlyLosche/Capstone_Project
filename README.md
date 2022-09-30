@@ -9,7 +9,41 @@ One area where this is all too common is on the sales team, especially with new 
 
 Through this app managers can give the BDR insight into how their facial emotions likely appear to the prospect, and what the prospect’s likely emotion is at that point as well.
 
-# Using This Notebook
+# Using This Repo
+## Dependencies
+python                    3.9.13
+joblib                    1.1.0 
+jupyter                   1.0.0
+keras                     2.9.0
+keras-preprocessing       1.1.2
+matplotlib-base           3.5.3
+numpy                     1.22.4
+opencv-python             4.6.0.66
+scikit-learn              1.1.2
+scipy                     1.9.1
+seaborn                   0.12.0
+seaborn-base              0.12.0
+
+
+streamlit                 1.13.0
+
+
+tensorflow-deps           2.9.0 
+tensorflow-estimator      2.9.0
+tensorflow-macos          2.9.2 
+tensorflow-metal          0.5.1
+
+
+
+jupyter_client            7.3.5 
+jupyter_console           6.4.4
+jupyter_core              4.11.1 
+jupyterlab_pygments       0.2.2
+jupyterlab_widgets        3.0.3
+pip                       22.2.2
+
+
+## Data and Filepath
 Due to the number of images used (Over 65,000), If someone wants to recreate the models or use the notebooks, they must download the images through the links provided below in the Data Understanding section, and set up a project filepath as shown below.
 
 ![Filepath](https://github.com/GnarlyLosche/Capstone_Project/blob/main/Images/Data_Filepath.png)
