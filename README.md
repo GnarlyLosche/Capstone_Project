@@ -1,7 +1,7 @@
 # Show Me The Money!! - Emotion Detection for Sales Call Performance - Capstone
 
 
-[Looks like this call is going well!](https://github.com/GnarlyLosche/Capstone_Project/blob/main/Images/Zoom_Call.jpg)
+![Looks like this call is going well!](https://github.com/GnarlyLosche/Capstone_Project/blob/main/Images/Zoom_Call.jpg)
 
 When growing or building a business, the cost of onboarding can be immense. One of the first risks a company can run into is providing new hires with a poor onboarding experience, leading to less successful employees that can have a negative impact on the business' success. 
 
