@@ -12,7 +12,7 @@ Through this app managers can give the BDR insight into how their facial emotion
 # Using This Notebook
 Due to the number of images used (Over 65,000), If someone wants to recreate the models or use the notebooks, they must download the images through the links provided below in the Data Understanding section, and set up a project filepath as shown below.
 
-Show Filepath Image Here
+![Filepath](https://github.com/GnarlyLosche/Capstone_Project/blob/main/Images/Data_Filepath.png)
 
 The final model uses an aggregated set of images for training, validation and testing. The breakdown of how the datasets were used for training, validation, and testing is:
 
