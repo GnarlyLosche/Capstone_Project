@@ -70,7 +70,7 @@ def import_and_predict(image_data, model):
         i = i + 1
         cv2.putText(image, label, label_position , cv2.FONT_HERSHEY_COMPLEX,1, (0,255,0), 2)
     primary_emotion = most_frequent(sentiment)    
-    #Show the image with matplotlib
+    #Show the image with emotion labels
     st.image(image, caption=f'Overall, attendees appear {primary_emotion}', width=None, use_column_width=None, clamp=False, channels="RGB", output_format="auto")
 
 def opt_in_func(yes_no):
